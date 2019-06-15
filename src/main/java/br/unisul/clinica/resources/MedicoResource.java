@@ -12,30 +12,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import br.unisul.clinica.domain.Medicamento;
-import br.unisul.clinica.services.MedicamentoService;
+import br.unisul.clinica.domain.Medico;
+import br.unisul.clinica.services.MedicoService;
 
 @RestController
-@RequestMapping(value = "/medicamentos")
-public class MedicamentoResource {
+@RequestMapping(value = "/medicos")
+public class MedicoResource {
 	@Autowired
-	private MedicamentoService service;
+	private MedicoService service;
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Medicamento> find(@PathVariable Integer id) {
-		Medicamento obj = service.find(id);
+	public ResponseEntity<Medico> find(@PathVariable Integer id) {
+		Medico obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Medicamento obj) {
+	public ResponseEntity<Void> insert(@RequestBody Medico obj) {
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Void> update(@RequestBody Medicamento obj, @PathVariable Integer id) {
+	public ResponseEntity<Void> update(@RequestBody Medico obj, @PathVariable Integer id) {
 		obj.setId(id);
 		obj = service.update(obj);
 		return ResponseEntity.noContent().build();
@@ -48,8 +48,8 @@ public class MedicamentoResource {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Medicamento>> findAll() {
-		List<Medicamento> lista = service.findAll();
+	public ResponseEntity<List<Medico>> findAll() {
+		List<Medico> lista = service.findAll();
 		return ResponseEntity.ok().body(lista);
 	}
 
