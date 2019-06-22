@@ -1,37 +1,40 @@
 package br.unisul.clinica.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Medico implements Serializable {
+public class Paciente implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	private String especialidade;
+	private String sexo; // feminino ou masculino
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "medico")
-	private List<Paciente> pacientes = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name = "medicamento_id")
+	private Medicamento medicamento;
 
-	public Medico() {
+	@ManyToOne
+	@JoinColumn(name = "medico_id")
+	private Medico medico;
+
+	public Paciente() {
 	}
 
-	public Medico(Integer id, String nome, String especialidade) {
+	public Paciente(Integer id, String nome, String sexo, Medicamento medicamento, Medico medico) {
 		this.id = id;
 		this.nome = nome;
-		this.especialidade = especialidade;
+		this.sexo = sexo;
+		this.medicamento = medicamento;
+		this.medico = medico;
 	}
 
 	public Integer getId() {
@@ -50,20 +53,28 @@ public class Medico implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getEspecialidade() {
-		return especialidade;
+	public String getSexo() {
+		return sexo;
 	}
 
-	public void setEspecialidade(String especialidade) {
-		this.especialidade = especialidade;
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
 	}
 
-	public List<Paciente> getPacientes() {
-		return pacientes;
+	public Medicamento getMedicamento() {
+		return medicamento;
 	}
 
-	public void setPacientes(List<Paciente> pacientes) {
-		this.pacientes = pacientes;
+	public void setMedicamento(Medicamento medicamento) {
+		this.medicamento = medicamento;
+	}
+
+	public Medico getMedico() {
+		return medico;
+	}
+
+	public void setMedico(Medico medico) {
+		this.medico = medico;
 	}
 
 	@Override
@@ -82,7 +93,7 @@ public class Medico implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Medico other = (Medico) obj;
+		Paciente other = (Paciente) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
