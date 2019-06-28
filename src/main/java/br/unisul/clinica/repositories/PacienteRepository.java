@@ -20,4 +20,8 @@ public interface PacienteRepository extends JpaRepository<Paciente, Integer> {
 	@Query("select obj from Paciente obj where obj.medico.id = :medicoId")
 	public List<Paciente> findMedicoPaciente(@Param("medicoId") Integer medico_id);
 
+	@Transactional(readOnly = true)
+	@Query("select p from Paciente p where p.nome like %:nome%")
+	List<Paciente> findByPacienteContaining(@Param("nome") String nome);
+
 }

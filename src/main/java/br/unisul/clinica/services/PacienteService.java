@@ -1,6 +1,7 @@
 package br.unisul.clinica.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,11 @@ public class PacienteService {
 	@Autowired
 	private MedicoService medicoService;
 
+	public Paciente find(Integer id) {
+		Optional<Paciente> obj = rep.findById(id);
+		return obj.orElse(null);
+	}
+
 	public List<Paciente> findByMedicamento(Integer medicamentoId) {
 		return rep.findMedicamentoPaciente(medicamentoId);
 	}
@@ -38,6 +44,20 @@ public class PacienteService {
 
 	public List<Paciente> findAll() {
 		return rep.findAll();
+	}
+
+	public Paciente update(Paciente obj) {
+		find(obj.getId());
+		return rep.save(obj);
+	}
+
+	public void delete(Integer id) {
+		find(id);
+		rep.deleteById(id);
+	}
+
+	public List<Paciente> findByNome(String nome) {
+		return rep.findByPacienteContaining(nome);
 	}
 
 }
