@@ -16,7 +16,7 @@ public class Paciente implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	private String sexo; // feminino ou masculino
+	private String sexo;
 
 	@ManyToOne
 	@JoinColumn(name = "medicamento_id")
